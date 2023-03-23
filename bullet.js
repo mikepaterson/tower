@@ -1,6 +1,6 @@
 class Bullet {
-  constructor(imageSrc, damagePoints, travelSpeed, screenPosition, target ) {
-
+  constructor(game, imageSrc, damagePoints, travelSpeed, screenPosition, target ) {
+    this.game = game;
     this.image = new Image();
     this.image.src = imageSrc;
 
@@ -12,20 +12,22 @@ class Bullet {
     this.lastMoveTime = 0;
   }
 
-  move(game, currentTime) {
-    var targetScreenPosition = game.ui.getScreenPositionFromGridPosition(this.target.gridPosition);
+  move(currentTime) {
+    var targetScreenPosition = this.game.ui.getScreenPositionFromGridPosition(this.target.gridPosition);
 
-    const dx = targetScreenPosition.x - this.screenPosition.x;
-    const dy = targetScreenPosition.y - this.screenPosition.y;
-    const distance = Math.sqrt(dx * dx + dy * dy);
-    const moveDistance = this.travelSpeed;
+    if(this.lastMoveTime) {
+      const dx = targetScreenPosition.x - this.screenPosition.x;
+      const dy = targetScreenPosition.y - this.screenPosition.y;
+      const distance = Math.sqrt(dx * dx + dy * dy);
+      const moveDistance = this.travelSpeed * this.game.renderer.tileWidth * ((currentTime - this.lastMoveTime)/1000);
 
-    if (moveDistance >= distance) {
-      this.screenPosition.x = targetScreenPosition.x;
-      this.screenPosition.y = targetScreenPosition.y;
-    } else {
-      this.screenPosition.x += (dx / distance) * moveDistance;
-      this.screenPosition.y += (dy / distance) * moveDistance;
+      if (moveDistance >= distance) {
+        this.screenPosition.x = targetScreenPosition.x;
+        this.screenPosition.y = targetScreenPosition.y;
+      } else {
+        this.screenPosition.x += (dx / distance) * moveDistance;
+        this.screenPosition.y += (dy / distance) * moveDistance;
+      }
     }
     this.lastMoveTime = currentTime;
   }

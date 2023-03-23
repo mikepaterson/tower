@@ -18,7 +18,7 @@
     "attackCooldown": 1.5,
     "attackRange": 5,
     "bulletImage": "images/banana_bullet.png",
-    "bulletSpeed": 6,
+    "bulletSpeed": 10,
     "image": "images/banana.png"
   },
   {
@@ -29,7 +29,7 @@
     "attackCooldown": 2,
     "attackRange": 6,
     "bulletImage": "images/orange_bullet.png",
-    "bulletSpeed": 7,
+    "bulletSpeed": 2,
     "image": "images/orange.png"
   }
 ]

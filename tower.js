@@ -1,5 +1,6 @@
 class Tower {
-  constructor(towerData, gridPosition) {
+  constructor(game, towerData, gridPosition) {
+    this.game = game;
     this.type = towerData.type;
     this.image = new Image();
     this.image.src = towerData.image;
@@ -24,14 +25,14 @@ class Tower {
     }
   }
 
-  attack(currentTime, game) {
-    const target = this.findTarget(game.enemies);
+  attack(currentTime) {
+    const target = this.findTarget(this.game.enemies);
 
     if (target) {
       console.log(this.type+' attacking '+target.type);
       this.lastAttackTime = currentTime
 
-      return new Bullet(this.bulletImageSrc, this.attackDamage, this.bulletSpeed, game.ui.getScreenPositionFromGridPosition(this.gridPosition), target);
+      return new Bullet(this.game, this.bulletImageSrc, this.attackDamage, this.bulletSpeed, this.game.ui.getScreenPositionFromGridPosition(this.gridPosition), target);
     }
 
     return null;

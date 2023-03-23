@@ -81,10 +81,10 @@ class Game {
       this.enemies = this.enemies.filter(enemy => !enemy.isDead());
 
 
-      this.enemies.forEach(enemy => enemy.move(this.currentLevel(), currentTime));
+      this.enemies.forEach(enemy => enemy.move(currentTime));
 
       this.bullets.forEach(bullet => {
-        bullet.move(this, currentTime)
+        bullet.move(currentTime)
         if(bullet.hasReachedTarget(this)) {
           bullet.hitTarget();
           console.log(bullet.target.type+' taking damage:  '+bullet.target.health+'left');
@@ -103,7 +103,7 @@ class Game {
         }
 
         if(tower.canAttack(currentTime)) {
-          const bullet = tower.attack(currentTime, this);
+          const bullet = tower.attack(currentTime);
           if(bullet) {
             this.bullets.push(bullet);
           }
@@ -156,7 +156,7 @@ class Game {
     var nextSpawn = currentWave[this.spawnIndex];
 
     if(nextSpawn && currentTime > this.lastSpawnTime + (nextSpawn.delay*1000)) {
-      const newEnemy = new Enemy(this.enemyTypes[nextSpawn.type]);
+      const newEnemy = new Enemy(this, this.enemyTypes[nextSpawn.type]);
       if (newEnemy) {
         newEnemy.gridPosition = this.currentLevel().path[0];
         newEnemy.lastMoveTime = currentTime;

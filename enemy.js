@@ -1,5 +1,6 @@
 class Enemy {
-  constructor(enemyTypeData) {
+  constructor(game, enemyTypeData) {
+    this.game = game;
     this.type = enemyTypeData.type;
     this.health = enemyTypeData.health;
     this.maxHealth = enemyTypeData.health;
@@ -18,33 +19,14 @@ class Enemy {
 
 
 
-  move(level, currentTime) {
+  move(currentTime) {
 
     if(currentTime > this.lastMoveTime + (this.moveCooldown*1000)) {
-      this.gridPosition = level.getNextPosition(this.gridPosition);
+      this.gridPosition = this.game.currentLevel().getNextPosition(this.gridPosition);
       this.lastMoveTime = currentTime;
     }
 
-    // if (this.pathIndex < this.path.length - 1) {
-    //   const dx = this.path[this.pathIndex + 1].x - this.position.x;
-    //   const dy = this.path[this.pathIndex + 1].y - this.position.y;
-    //   const distance = Math.sqrt(dx * dx + dy * dy);
-    //   const moveDistance = this.travelSpeed;
-
-    //   if (moveDistance >= distance) {
-    //     this.pathIndex++;
-    //     this.position.x = this.path[this.pathIndex].x;
-    //     this.position.y = this.path[this.pathIndex].y;
-    //   } else {
-    //     this.position.x += (dx / distance) * moveDistance;
-    //     this.position.y += (dy / distance) * moveDistance;
-    //   }
-    // }
   }
-
-  // hasReachedEnd() {
-  //   return this.pathIndex === this.path.length - 1;
-  // }
 
   isDead() {
     return this.health <= 0;

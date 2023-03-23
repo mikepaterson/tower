@@ -97,7 +97,7 @@ class UI {
     const towerCost = this.game.towerTypes[towerType].cost;
     if (this.game.player.coins >= towerCost) {
       this.game.player.coins -= towerCost;
-      this.setPlacingTower(new Tower(this.game.towerTypes[towerType]));
+      this.setPlacingTower(new Tower(this.game, this.game.towerTypes[towerType]));
     }
   }
 
