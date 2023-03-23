@@ -85,10 +85,11 @@ class Game {
 
       this.bullets.forEach(bullet => {
         bullet.move(currentTime)
-        if(bullet.hasReachedTarget(this)) {
+        if(bullet.hasReachedTarget(this) && !bullet.target.isDead()) {
           bullet.hitTarget();
-          console.log(bullet.target.type+' taking damage:  '+bullet.target.health+'left');
+
           if(bullet.target.isDead()) {
+            console.log(bullet.target.type+' taking damage:  '+bullet.target.health+'left');
             console.log(bullet.target.type+' dead:  '+bullet.target.coinValue+' coins');
             this.player.coins += bullet.target.coinValue;
           }
@@ -123,6 +124,13 @@ class Game {
       if(this.waveIndex > this.currentLevel().waves.length-1 && this.enemies.length===0) {
         //next level
         console.log('next level');
+
+        //clear towers and give back portion of cost
+        this.towers.forEach(tower => {
+          this.player.coins += Math.ceil(tower.cost * 0.25);
+        });
+        this.towers = [];
+
         this.spawnIndex = 0;
         this.waveIndex = 0;
         this.levelIndex++;
@@ -196,7 +204,7 @@ class Game {
   checkEnemyReachEnd() {
     this.enemies.forEach(enemy => {
       if (this.currentLevel().isEndTile(enemy.gridPosition)) {
-        this.health -= 1;
+        this.player.health -= 1;
         enemy.die();
         console.log('enemy reached end')
       }
@@ -221,7 +229,7 @@ class Game {
   }
 
   checkGameOver() {
-    if (this.health <= 0) {
+    if (this.player.health <= 0) {
       this.isPlaying = false;
       this.ui.showGameOverScreen();
     }

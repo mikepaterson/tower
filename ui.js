@@ -48,7 +48,7 @@ class UI {
 
   updateStats() {
     this.levelStat.innerHTML = this.game.levelIndex +1;
-    this.waveStat.innerHTML = this.game.waveIndex +1;
+    this.waveStat.innerHTML = (this.game.waveIndex +1) + '/' + this.game.currentLevel().waves.length;
     this.healthStat.innerHTML = this.game.player.health;
     this.coinsStat.innerHTML = this.game.player.coins;
   }
