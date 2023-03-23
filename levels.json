@@ -185,7 +185,7 @@
       [
         {"delay":4, "type":"bear"},
         {"delay":2, "type":"elephant"},
-        {"delay":1.5, "type":"tiger"}, {"delay":1.5, "type":"tiger"}, {"delay":1.5, "type":"tiger"}, {"delay":1.5, "type":"tiger"}
+        {"delay":1.5, "type":"tiger"}, {"delay":1.5, "type":"tiger"}, {"delay":1.5, "type":"tiger"}, {"delay":1.5, "type":"tiger"},
         {"delay":1.5, "type":"lion"}
       ]
     ]
