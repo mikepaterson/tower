@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tower Defense Game</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="startScreen">
+    <h1>Tower Defense Game</h1>
+    <button id="startBtn">Start Game</button>
+  </div>
+
+  <div id="gameScreen" style="display: none;">
+    <div style="float: left">
+      <canvas id="gameCanvas" width="1200" height="800"></canvas>
+      <div id="towerMenu">
+        <!-- Tower buttons will be added dynamically here -->
+      </div>
+      <button id="cancelBtn" style="display: none;">Cancel</button>
+    </div>
+    <div id="stats" style="float: left">
+      Level: <span id="level">0</span><br/>
+      Wave: <span id="wave">0</span><br/>
+      Heath: <span id="health">0</span><br/>
+      Coins: <span id="coins">0</span><br/>
+    </div>
+  </div>
+
+  <div id="victoryScreen" style="display: none;">
+    <h1>You Won!</h1>
+    <button id="playAgainBtn">Play Again</button>
+  </div>
+
+  <div id="gameOverScreen" style="display: none;">
+    <h1>Game Over</h1>
+    <button id="tryAgainBtn">Try Again</button>
+  </div>
+
+  <script src="enemy.js"></script>
+  <script src="tower.js"></script>
+  <script src="bullet.js"></script>
+  <script src="renderer.js"></script>
+  <script src="ui.js"></script>
+  <script src="level.js"></script>
+  <script src="game.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

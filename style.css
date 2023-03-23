@@ -1,0 +1,19 @@
+body {
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #ccc;
+}
+
+canvas {
+  border: 1px solid #ccc;
+}
+
+
+#stats {
+  color: black;
+  font-size: 25px;
+  margin-left: 25px;
+}

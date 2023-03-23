@@ -1,0 +1,42 @@
+{
+  "wolf": {
+    "type": "wolf",
+    "name": "Wolf",
+    "image": "images/wolf.png",
+    "health": 100,
+    "moveCooldown": 0.3,
+    "coinValue": 40
+  },
+  "bear": {
+    "type": "bear",
+    "name": "Bear",
+    "image": "images/bear.png",
+    "health": 300,
+    "moveCooldown": 0.8,
+    "coinValue": 100
+  },
+  "lion": {
+    "type": "lion",
+    "name": "Lion",
+    "image": "images/lion.png",
+    "health": 200,
+    "moveCooldown": 0.5,
+    "coinValue": 150
+  },
+  "tiger": {
+    "type": "tiger",
+    "name": "Tiger",
+    "image": "images/tiger.png",
+    "health": 250,
+    "moveCooldown": 0.5,
+    "coinValue": 250
+  },
+  "elephant": {
+    "type": "elephant",
+    "name": "Elephant",
+    "image": "images/elephant.png",
+    "health": 800,
+    "moveCooldown": 1.5,
+    "coinValue": 300
+  }
+}
