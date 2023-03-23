@@ -46,7 +46,7 @@
     ],
     "waves": [
       [
-        {"delay":5, "type":"wolf"},
+        {"delay":5, "type":"elephant"},
         {"delay":4, "type":"wolf"},
         {"delay":3.5, "type":"bear"},
         {"delay":0.75, "type":"wolf"},
