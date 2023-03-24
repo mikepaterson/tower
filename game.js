@@ -2,7 +2,7 @@ class Game {
 
   player = {
     health: 4,
-    coins: 100,
+    coins: 75,
   };
 
   levels = [];
@@ -46,7 +46,7 @@ class Game {
     this.waveIndex = 0;
     this.spanIndex = 0;
     this.player.health = 4;
-    this.player.coins = 100;
+    this.player.coins = 75;
     this.enemies = [];
     this.towers = [];
     this.bullets = [];
