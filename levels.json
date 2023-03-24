@@ -46,7 +46,7 @@
     ],
     "waves": [
       [
-        {"delay":3, "type":"wolf"},
+        {"delay":5, "type":"wolf"},
         {"delay":2, "type":"wolf"}
       ],
       [
