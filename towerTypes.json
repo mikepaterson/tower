@@ -5,7 +5,7 @@
     "cost": 50,
     "attackDamage": 60,
     "attackCooldown": 1.5,
-    "attackRange": 4,
+    "attackRange": 6,
     "bulletImage": "images/apple_bullet.png",
     "bulletSpeed": 7.5,
     "image": "images/apple.png"
@@ -14,9 +14,9 @@
     "type": "banana",
     "name": "Banana Tower",
     "cost": 75,
-    "attackDamage": 100,
-    "attackCooldown": 1.5,
-    "attackRange": 5,
+    "attackDamage": 20,
+    "attackCooldown": 1.0,
+    "attackRange": 3,
     "bulletImage": "images/banana_bullet.png",
     "bulletSpeed": 10,
     "image": "images/banana.png"
@@ -25,11 +25,11 @@
     "type": "orange",
     "name": "Orange Tower",
     "cost": 100,
-    "attackDamage": 250,
+    "attackDamage": 350,
     "attackCooldown": 2,
-    "attackRange": 6,
+    "attackRange": 8,
     "bulletImage": "images/orange_bullet.png",
-    "bulletSpeed": 2,
+    "bulletSpeed": 3,
     "image": "images/orange.png"
   }
 ]

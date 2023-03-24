@@ -19,15 +19,20 @@ class UI {
     this.waveStat = document.getElementById("wave");
     this.coinsStat = document.getElementById("coins");
     this.healthStat = document.getElementById("health");
+    this.newLevel = document.getElementById("newLevel");
+
     this.cancelBtn = document.getElementById("cancelBtn");
     this.startScreen = document.getElementById("startScreen");
     this.gameScreen = document.getElementById("gameScreen");
     this.victoryScreen = document.getElementById("victoryScreen");
     this.gameOverScreen = document.getElementById("gameOverScreen");
+    this.newLevelScreen = document.getElementById("newLevelScreen");
+
 
     document.getElementById("startBtn").addEventListener("click", () => this.game.startGame());
     document.getElementById("tryAgainBtn").addEventListener("click", () => this.game.restartGame());
     document.getElementById("playAgainBtn").addEventListener("click", () => this.game.restartGame());
+    document.getElementById("newLevelBtn").addEventListener("click", () => this.game.startLevel());
     this.cancelBtn.addEventListener("click", () => this.cancelTowerPurchase());
 
     this.game.renderer.gameCanvas.addEventListener("click", (event) => this.handleCanvasClick(event));
@@ -140,13 +145,29 @@ class UI {
     this.hideStartScreen();
     this.hideGameOverScreen();
     this.hideVictoryScreen();
+    this.hideNewLevelScreen();
   }
+
+  showNewLevelScreen() {
+    this.newLevel.innerHTML = this.game.levelIndex + 1;
+    this.newLevelScreen.style.display = "block";
+    this.hideStartScreen();
+    this.hideGameScreen();
+    this.hideGameOverScreen();
+    this.hideVictoryScreen();
+  }
+
+  hideNewLevelScreen() {
+    this.newLevelScreen.style.display = "none";
+  }
+
 
   showVictoryScreen() {
     this.victoryScreen.style.display = "block";
     this.hideStartScreen();
     this.hideGameOverScreen();
     this.hideGameScreen();
+    this.hideNewLevelScreen();
   }
 
   hideVictoryScreen() {
@@ -158,6 +179,7 @@ class UI {
     this.hideStartScreen();
     this.hideVictoryScreen();
     this.hideGameScreen();
+    this.hideNewLevelScreen();
   }
 
   hideGameOverScreen() {

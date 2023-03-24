@@ -46,28 +46,30 @@
     ],
     "waves": [
       [
-        {"delay":5, "type":"elephant"},
+        {"delay":3, "type":"wolf"},
+        {"delay":2, "type":"wolf"}
+      ],
+      [
+        {"delay":4, "type":"bear"}
+      ],
+      [
         {"delay":4, "type":"wolf"},
-        {"delay":3.5, "type":"bear"},
-        {"delay":0.75, "type":"wolf"},
-        {"delay":0.75, "type":"wolf"},
+        {"delay":2.5, "type":"bear"},
+        {"delay":2.75, "type":"wolf"},
         {"delay":0.75, "type":"wolf"},
         {"delay":0.75, "type":"wolf"},
         {"delay":3.5, "type":"bear"},
         {"delay":2, "type":"wolf"}
       ],
       [
-        {"delay":10, "type":"wolf"},
+        {"delay":4, "type":"wolf"},
         {"delay":2.5, "type":"bear"},
         {"delay":3, "type":"lion"},
         {"delay":2, "type":"lion"},
-        {"delay":4, "type":"lion"},
-        {"delay":2, "type":"lion"},
-        {"delay":4, "type":"lion"},
         {"delay":2, "type":"lion"}
       ],
       [
-        {"delay":10, "type":"wolf"},
+        {"delay":4, "type":"wolf"},
         {"delay":0.5, "type":"wolf"},
         {"delay":0.5, "type":"wolf"},
         {"delay":0.5, "type":"wolf"},
@@ -115,13 +117,20 @@
     ],
     "waves": [
       [
+        {"delay":3, "type":"lion"},
+        {"delay":1.5, "type":"tiger"},
+        {"delay":2, "type":"bear"}
+      ],
+      [
         {"delay":4, "type":"wolf"},
         {"delay":1.5, "type":"bear"},
         {"delay":3, "type":"lion"},
-        {"delay":1.5, "type":"wolf"}
+        {"delay":1.5, "type":"wolf"},
+        {"delay":3, "type":"elephant"}
       ],
       [
         {"delay":4, "type":"bear"},
+        {"delay":1, "type":"bear"},
         {"delay":2, "type":"elephant"},
         {"delay":1.5, "type":"tiger"},
         {"delay":1.5, "type":"lion"}
@@ -178,15 +187,70 @@
 "waves": [
       [
         {"delay":4, "type":"wolf"},
-        {"delay":1.5, "type":"bear"},
-        {"delay":3, "type":"lion"},
-        {"delay":1.5, "type":"wolf"},{"delay":1.5, "type":"wolf"},{"delay":1.5, "type":"wolf"},{"delay":1.5, "type":"wolf"},{"delay":1.5, "type":"wolf"}
+        {"delay":0.5, "type":"wolf"},
+        {"delay":0.5, "type":"wolf"},
+        {"delay":0.5, "type":"wolf"},
+        {"delay":0.5, "type":"wolf"},
+        {"delay":0.5, "type":"wolf"},
+        {"delay":0.5, "type":"wolf"}
       ],
       [
-        {"delay":4, "type":"bear"},
+        {"delay":1.5, "type":"bear"},
+        {"delay":1.5, "type":"bear"},
+        {"delay":1.5, "type":"bear"},
+        {"delay":1.5, "type":"bear"},
+        {"delay":1.5, "type":"bear"},
+        {"delay":1.5, "type":"bear"}
+      ],
+      [
+        {"delay":3, "type":"lion"},
+        {"delay":1, "type":"lion"},
+        {"delay":1, "type":"lion"},
+        {"delay":1, "type":"lion"},
+        {"delay":1, "type":"lion"},
+        {"delay":1, "type":"lion"},
+        {"delay":1, "type":"lion"},
+        {"delay":1, "type":"lion"}
+      ],
+      [
+        {"delay":3, "type":"tiger"},
+        {"delay":1.5, "type":"tiger"},
+        {"delay":1.5, "type":"tiger"},
+        {"delay":1.5, "type":"tiger"},
+        {"delay":1.5, "type":"tiger"},
+        {"delay":1.5, "type":"tiger"},
+        {"delay":1.5, "type":"tiger"},
+        {"delay":1.5, "type":"tiger"},
+        {"delay":1.5, "type":"tiger"}
+      ],
+      [
         {"delay":2, "type":"elephant"},
-        {"delay":1.5, "type":"tiger"}, {"delay":1.5, "type":"tiger"}, {"delay":1.5, "type":"tiger"}, {"delay":1.5, "type":"tiger"},
-        {"delay":1.5, "type":"lion"}
+        {"delay":2, "type":"elephant"},
+        {"delay":2, "type":"elephant"},
+        {"delay":2, "type":"elephant"},
+        {"delay":2, "type":"elephant"},
+        {"delay":2, "type":"elephant"},
+        {"delay":2, "type":"elephant"}
+      ],
+      [
+        {"delay":3, "type":"tiger"},
+
+        {"delay":0.5, "type":"tiger"},
+        {"delay":0.5, "type":"lion"},
+        {"delay":0.5, "type":"elephant"},
+        {"delay":0.5, "type":"bear"},
+        {"delay":0.5, "type":"wolf"},
+        {"delay":1, "type":"tiger"},
+        {"delay":0.5, "type":"tiger"},
+        {"delay":0.5, "type":"lion"},
+        {"delay":0.5, "type":"lion"},
+        {"delay":0.5, "type":"elephant"},
+        {"delay":0.5, "type":"elephant"},
+        {"delay":0.5, "type":"bear"},
+        {"delay":0.5, "type":"bear"},
+        {"delay":0.5, "type":"wolf"},
+        {"delay":0.5, "type":"wolf"}
+
       ]
     ]
 }

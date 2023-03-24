@@ -5,7 +5,7 @@
     "image": "images/wolf.png",
     "health": 100,
     "moveCooldown": 0.3,
-    "coinValue": 40
+    "coinValue": 25
   },
   "bear": {
     "type": "bear",
@@ -21,7 +21,7 @@
     "image": "images/lion.png",
     "health": 200,
     "moveCooldown": 0.5,
-    "coinValue": 150
+    "coinValue": 80
   },
   "tiger": {
     "type": "tiger",
@@ -29,7 +29,7 @@
     "image": "images/tiger.png",
     "health": 250,
     "moveCooldown": 0.5,
-    "coinValue": 250
+    "coinValue": 90
   },
   "elephant": {
     "type": "elephant",
@@ -37,6 +37,6 @@
     "image": "images/elephant.png",
     "health": 800,
     "moveCooldown": 1.5,
-    "coinValue": 300
+    "coinValue": 200
   }
 }

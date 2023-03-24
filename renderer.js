@@ -18,11 +18,12 @@ class Renderer {
 
   render() {
     this.clearCanvas();
-    this.renderLevel(this.game.currentLevel());
-    this.renderTowers(this.game.towers);
-    this.renderEnemies(this.game.enemies);
-    this.renderBullets(this.game.bullets);
-
+    if(this.game.currentLevel()) {
+      this.renderLevel(this.game.currentLevel());
+      this.renderTowers(this.game.towers);
+      this.renderEnemies(this.game.enemies);
+      this.renderBullets(this.game.bullets);
+    }
   }
 
 

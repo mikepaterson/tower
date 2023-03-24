@@ -51,9 +51,8 @@ class Game {
     this.towers = [];
     this.bullets = [];
 
-    this.isPlaying = true;
-    this.ui.showGameScreen();
     this.gameLoop();
+    this.startLevel();
   }
 
   restartGame() {
@@ -62,7 +61,10 @@ class Game {
 
 
 
-
+  startLevel() {
+    this.isPlaying = true;
+    this.ui.showGameScreen();
+  }
 
 
   gameLoop(currentTime) {
@@ -135,9 +137,12 @@ class Game {
         this.waveIndex = 0;
         this.levelIndex++;
 
+
+        this.isPlaying = false;
         if(this.levelIndex > this.levels.length -1) {
-          this.isPlaying = false;
           this.ui.showVictoryScreen();
+        } else {
+          this.ui.showNewLevelScreen();
         }
       }
 
@@ -152,8 +157,10 @@ class Game {
 
 
   render(currentTime) {
-    this.renderer.render();
-    this.ui.render();
+    if(this.currentLevel()) {
+      this.renderer.render();
+      this.ui.render();
+    }
   }
 
 
