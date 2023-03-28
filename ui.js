@@ -36,6 +36,7 @@ class UI {
     this.cancelBtn.addEventListener("click", () => this.cancelTowerPurchase());
 
     this.game.renderer.gameCanvas.addEventListener("click", (event) => this.handleCanvasClick(event));
+    this.game.renderer.gameCanvas.addEventListener("mousemove", (event) => this.handleCanvasCursor(event));
 
   }
 
@@ -70,13 +71,26 @@ class UI {
 
   handleCanvasClick(event) {
     if (this.placingTower) {
+      // const rect = this.game.renderer.gameCanvas.getBoundingClientRect();
+      // const x = event.clientX - rect.left;
+      // const y = event.clientY - rect.top;
+
+      // var gridPosition = this.getGridPositionFromScreenPosition({x: x, y:y});
+      this.game.placeTower(this.placingTower);
+      this.setPlacingTower(null);
+    }
+  }
+
+  handleCanvasCursor(event) {
+    if (this.placingTower) {
       const rect = this.game.renderer.gameCanvas.getBoundingClientRect();
       const x = event.clientX - rect.left;
       const y = event.clientY - rect.top;
 
       var gridPosition = this.getGridPositionFromScreenPosition({x: x, y:y});
-      this.game.placeTower(this.placingTower, gridPosition);
-      this.setPlacingTower(null);
+      if(!this.game.isTileOccupied(gridPosition)) {
+        this.placingTower.gridPosition = gridPosition;
+      }
     }
   }
 

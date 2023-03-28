@@ -191,9 +191,9 @@ class Game {
 
 
 
-  placeTower(tower, gridPosition) {
+  placeTower(tower) {
     //if(this.currentLevel().canPlaceTower(gridPosition)) {
-      tower.gridPosition = gridPosition;
+      //tower.gridPosition = gridPosition;
 
       this.towers.push(tower);
       this.ui.setPlacingTower(null);
@@ -203,6 +203,24 @@ class Game {
   }
 
 
+
+
+  isTileOccupied(gridPosition) {
+    var isOccupied = false;
+    this.currentLevel().path.forEach(tile => {
+      if(tile.x===gridPosition.x && tile.y===gridPosition.y) {
+        isOccupied = true;
+      }
+    });
+
+    this.towers.forEach(tower => {
+      if(tower.gridPosition.x===gridPosition.x && tower.gridPosition.y===gridPosition.y) {
+        isOccupied = true;
+      }
+    });
+
+    return isOccupied;
+  }
 
 
 

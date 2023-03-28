@@ -23,6 +23,7 @@ class Renderer {
       this.renderTowers(this.game.towers);
       this.renderEnemies(this.game.enemies);
       this.renderBullets(this.game.bullets);
+      this.renderPlacingTower();
     }
   }
 
@@ -78,6 +79,27 @@ class Renderer {
       );
 
     });
+  }
+
+  renderPlacingTower() {
+    if(this.game.ui.placingTower) {
+      const tower = this.game.ui.placingTower;
+      if(tower.gridPosition) {
+        this.ctx.globalAlpha = 0.4;
+        this.ctx.drawImage(
+          tower.image,
+          0,
+          0,
+          tower.image.width,
+          tower.image.height,
+          tower.gridPosition.x * this.tileWidth,
+          tower.gridPosition.y * this.tileHeight,
+          this.tileWidth,
+          this.tileHeight
+        );
+        this.ctx.globalAlpha = 1;
+      }
+    }
   }
 
 
