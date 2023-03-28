@@ -5,6 +5,8 @@ body {
   align-items: center;
   height: 100vh;
   background-color: #ccc;
+
+
 }
 
 canvas {
@@ -16,4 +18,26 @@ canvas {
   color: black;
   font-size: 25px;
   margin-left: 25px;
+}
+
+#startScreen {
+}
+
+#gameOverScreen {
+  /* background: url(images/bg.jpg); */
+}
+
+
+
+#towerMenu button {
+  height: 110px;
+  width: 110px;
+}
+#towerMenu button img {
+  height: 60px;
+}
+
+#cancelBtn {
+  height: 110px;
+  width: 110px;
 }

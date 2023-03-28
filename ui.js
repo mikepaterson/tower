@@ -59,13 +59,6 @@ class UI {
     this.coinsStat.innerHTML = this.game.player.coins;
   }
 
-  updateTowerButtons() {
-    this.towerButtons.forEach((button, index) => {
-      const towerType = this.game.towerTypes[index];
-      button.disabled = this.game.player.coins < towerType.cost;
-    });
-  }
-
 
 
 
@@ -78,6 +71,7 @@ class UI {
       // var gridPosition = this.getGridPositionFromScreenPosition({x: x, y:y});
       this.game.placeTower(this.placingTower);
       this.setPlacingTower(null);
+      this.showTowerMenu();
     }
   }
 
@@ -98,30 +92,50 @@ class UI {
 
   createTowerButtons(game) {
     const towerMenu = document.getElementById("towerMenu");
-    Object.values(this.game.towerTypes).forEach((towerType, index) => {
+    Object.values(this.game.towerData).forEach((towerData, index) => {
       const button = document.createElement("button");
-      button.textContent = `${towerType.name} (${towerType.cost} coins)`;
-      button.addEventListener("click", () => this.purchaseTower(index));
+      button.innerHTML = `<img src="${towerData.image}"><br/>${towerData.name}<br/>(${towerData.cost} coins)`;
+      button.addEventListener("click", () => this.purchaseTower(towerData.type));
+      button.towerType = towerData.type;
       towerMenu.appendChild(button);
       this.towerButtons.push(button);
     });
   }
 
+  updateTowerButtons() {
+    this.towerButtons.forEach(button => {
+      var towerType = button.towerType;
+      const towerData = this.game.towerData[towerType];
+      button.disabled = this.game.player.coins < towerData.cost;
+    });
+  }
+
+  showTowerMenu() {
+    document.getElementById("towerMenu").style.display = 'block';
+  }
+  hideTowerMenu() {
+    document.getElementById("towerMenu").style.display = 'none';
+  }
+
+
+
   setPlacingTower(towerType) {
     this.placingTower = towerType;
     this.cancelBtn.style.display = towerType ? "block" : "none";
+    this.hideTowerMenu();
   }
 
   purchaseTower(towerType) {
-    const towerCost = this.game.towerTypes[towerType].cost;
+    const towerCost = this.game.towerData[towerType].cost;
     if (this.game.player.coins >= towerCost) {
       this.game.player.coins -= towerCost;
-      this.setPlacingTower(new Tower(this.game, this.game.towerTypes[towerType]));
+      this.setPlacingTower(new Tower(this.game, this.game.towerData[towerType]));
     }
   }
 
   cancelTowerPurchase() {
     this.setPlacingTower(null);
+    this.showTowerMenu();
   }
 
 

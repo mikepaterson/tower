@@ -1,8 +1,8 @@
 class Game {
 
   player = {
-    health: 4,
-    coins: 75,
+    health,
+    coins,
   };
 
   levels = [];
@@ -13,6 +13,7 @@ class Game {
   enemies = [];
   towers = [];
   bullets = [];
+  blocks = [];
 
   isPlaying = false;
   gridSize = {x: 20, y: 15};
@@ -20,10 +21,11 @@ class Game {
   lastRenderTime = 0;
 
 
-  constructor(levelData, enemyTypes, towerTypes, ui, renderer) {
+  constructor(levelData, enemyData, towerData, blockData) {
     this.levels = levelData.map(data => new Level(data));
-    this.enemyTypes = enemyTypes;
-    this.towerTypes = towerTypes;
+    this.enemyData = enemyData;
+    this.towerData = towerData;
+    this.blockData = blockData;
 
     this.renderer = new Renderer(this);
     this.ui = new UI(this);
@@ -46,7 +48,7 @@ class Game {
     this.waveIndex = 0;
     this.spanIndex = 0;
     this.player.health = 4;
-    this.player.coins = 75;
+    this.player.coins = 70;
     this.enemies = [];
     this.towers = [];
     this.bullets = [];
@@ -62,6 +64,21 @@ class Game {
 
 
   startLevel() {
+
+    //generate blocks
+    this.blocks = [];
+    for(var i=0; i< (50 + (this.levelIndex * 25)); i++) {
+      var gridPosition = {
+        x: Math.floor(Math.random() * this.gridSize.x),
+        y: Math.floor(Math.random() * this.gridSize.y)
+      }
+      if(!this.isTileOccupied(gridPosition)) {
+        var block = new Block(this, this.blockData['rock'], gridPosition);
+        this.blocks.push(block);
+      }
+    }
+
+
     this.isPlaying = true;
     this.ui.showGameScreen();
   }
@@ -171,7 +188,7 @@ class Game {
     var nextSpawn = currentWave[this.spawnIndex];
 
     if(nextSpawn && currentTime > this.lastSpawnTime + (nextSpawn.delay*1000)) {
-      const newEnemy = new Enemy(this, this.enemyTypes[nextSpawn.type]);
+      const newEnemy = new Enemy(this, this.enemyData[nextSpawn.type]);
       if (newEnemy) {
         newEnemy.gridPosition = this.currentLevel().path[0];
         newEnemy.lastMoveTime = currentTime;
@@ -215,6 +232,12 @@ class Game {
 
     this.towers.forEach(tower => {
       if(tower.gridPosition.x===gridPosition.x && tower.gridPosition.y===gridPosition.y) {
+        isOccupied = true;
+      }
+    });
+
+    this.blocks.forEach(block => {
+      if(block.gridPosition.x===gridPosition.x && block.gridPosition.y===gridPosition.y) {
         isOccupied = true;
       }
     });

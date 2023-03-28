@@ -1,0 +1,7 @@
+{
+  "rock": {
+    "type": "rock",
+    "name": "Rock",
+    "image": "images/rock.png"
+  }
+}

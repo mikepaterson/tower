@@ -20,6 +20,7 @@ class Renderer {
     this.clearCanvas();
     if(this.game.currentLevel()) {
       this.renderLevel(this.game.currentLevel());
+      this.renderBlocks();
       this.renderTowers(this.game.towers);
       this.renderEnemies(this.game.enemies);
       this.renderBullets(this.game.bullets);
@@ -63,6 +64,24 @@ class Renderer {
     });
 
   }
+
+
+  renderBlocks() {
+    this.game.blocks.forEach(block => {
+      this.ctx.drawImage(
+        block.image,
+        0,
+        0,
+        block.image.width,
+        block.image.height,
+        block.gridPosition.x * this.tileWidth,
+        block.gridPosition.y * this.tileHeight,
+        this.tileWidth,
+        this.tileHeight
+      );
+    });
+  }
+
 
   renderTowers(towers) {
     towers.forEach(tower => {

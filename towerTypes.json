@@ -1,5 +1,5 @@
-[
-  {
+{
+  "apple": {
     "type": "apple",
     "name": "Apple Tower",
     "cost": 50,
@@ -10,7 +10,7 @@
     "bulletSpeed": 7.5,
     "image": "images/apple.png"
   },
-  {
+  "banana": {
     "type": "banana",
     "name": "Banana Tower",
     "cost": 75,
@@ -21,7 +21,7 @@
     "bulletSpeed": 10,
     "image": "images/banana.png"
   },
-  {
+  "orange": {
     "type": "orange",
     "name": "Orange Tower",
     "cost": 100,
@@ -32,4 +32,4 @@
     "bulletSpeed": 3,
     "image": "images/orange.png"
   }
-]
+}
