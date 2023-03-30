@@ -20,11 +20,17 @@ class Renderer {
     this.clearCanvas();
     if(this.game.currentLevel()) {
       this.renderLevel(this.game.currentLevel());
+
+
       this.renderBlocks();
       this.renderTowers(this.game.towers);
+      this.renderFarms();
       this.renderEnemies(this.game.enemies);
       this.renderBullets(this.game.bullets);
-      this.renderPlacingTower();
+      this.renderPlacingObject();
+
+      this.renderObjects();
+
     }
   }
 
@@ -32,6 +38,8 @@ class Renderer {
   clearCanvas() {
     this.ctx.clearRect(0, 0, this.gameCanvas.width, this.gameCanvas.height);
   }
+
+
 
   renderLevel(level) {
 
@@ -65,6 +73,25 @@ class Renderer {
 
   }
 
+  renderObjects() {
+    this.game.objects.forEach(object => {
+      var x = object.gridPosition ? object.gridPosition.x * this.tileWidth : object.screenPosition.x;
+      var y = object.gridPosition ? object.gridPosition.y * this.tileWidth : object.screenPosition.y;
+
+      this.ctx.drawImage(
+        object.image,
+        0,
+        0,
+        object.image.width,
+        object.image.height,
+        x,
+        y,
+        this.tileWidth,
+        this.tileHeight
+      );
+    });
+
+  }
 
   renderBlocks() {
     this.game.blocks.forEach(block => {
@@ -100,24 +127,64 @@ class Renderer {
     });
   }
 
-  renderPlacingTower() {
-    if(this.game.ui.placingTower) {
-      const tower = this.game.ui.placingTower;
-      if(tower.gridPosition) {
-        this.ctx.globalAlpha = 0.4;
-        this.ctx.drawImage(
-          tower.image,
-          0,
-          0,
-          tower.image.width,
-          tower.image.height,
-          tower.gridPosition.x * this.tileWidth,
-          tower.gridPosition.y * this.tileHeight,
-          this.tileWidth,
-          this.tileHeight
-        );
-        this.ctx.globalAlpha = 1;
+  renderFarms() {
+    this.game.farms.forEach(farm => {
+      this.ctx.drawImage(
+        farm.image,
+        0,
+        0,
+        farm.image.width,
+        farm.image.height,
+        farm.gridPosition.x * this.tileWidth,
+        farm.gridPosition.y * this.tileHeight,
+        this.tileWidth,
+        this.tileHeight
+      );
+
+    });
+  }
+
+  renderPlacingObject() {
+    if(this.game.ui.placingObject) {
+      if(this.game.ui.placingObject instanceof Tower) {
+        const tower = this.game.ui.placingObject;
+        if(tower.gridPosition) {
+          this.ctx.globalAlpha = 0.4;
+          //todo draw circle showing range
+          this.ctx.drawImage(
+            tower.image,
+            0,
+            0,
+            tower.image.width,
+            tower.image.height,
+            tower.gridPosition.x * this.tileWidth,
+            tower.gridPosition.y * this.tileHeight,
+            this.tileWidth,
+            this.tileHeight
+          );
+          this.ctx.globalAlpha = 1;
+        }
       }
+
+      if(this.game.ui.placingObject instanceof Farm) {
+        const farm = this.game.ui.placingObject;
+        if(farm.gridPosition) {
+          this.ctx.globalAlpha = 0.4;
+          this.ctx.drawImage(
+            farm.image,
+            0,
+            0,
+            farm.image.width,
+            farm.image.height,
+            farm.gridPosition.x * this.tileWidth,
+            farm.gridPosition.y * this.tileHeight,
+            this.tileWidth,
+            this.tileHeight
+          );
+          this.ctx.globalAlpha = 1;
+        }
+      }
+
     }
   }
 

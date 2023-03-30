@@ -2,7 +2,7 @@
   "apple": {
     "type": "apple",
     "name": "Apple Tower",
-    "cost": 50,
+    "cost": 15,
     "attackDamage": 60,
     "attackCooldown": 1.5,
     "attackRange": 4,
@@ -13,7 +13,7 @@
   "banana": {
     "type": "banana",
     "name": "Banana Tower",
-    "cost": 75,
+    "cost": 25,
     "attackDamage": 20,
     "attackCooldown": 0.5,
     "attackRange": 3,
@@ -24,7 +24,7 @@
   "orange": {
     "type": "orange",
     "name": "Orange Tower",
-    "cost": 100,
+    "cost": 60,
     "attackDamage": 350,
     "attackCooldown": 2,
     "attackRange": 2,

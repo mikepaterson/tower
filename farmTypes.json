@@ -1,0 +1,18 @@
+{
+  "berry": {
+    "type": "berry",
+    "name": "Berry Farm",
+    "cost": 15,
+    "payoutCoins": 3,
+    "payoutCooldown": 10,
+    "image": "images/farm_red.png"
+  },
+  "carrot": {
+    "type": "carrot",
+    "name": "Carrot Farm",
+    "cost": 30,
+    "payoutCoins": 15,
+    "payoutCooldown": 30,
+    "image": "images/farm_blue.png"
+  }
+}

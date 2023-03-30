@@ -53,6 +53,14 @@
         {"delay":4, "type":"bear"}
       ],
       [
+        {"delay":4, "type":"snake"},
+        {"delay":0.75, "type":"snake"},
+        {"delay":0.75, "type":"snake"},
+        {"delay":0.75, "type":"snake"},
+        {"delay":0.75, "type":"snake"},
+        {"delay":0.75, "type":"snake"}
+      ],
+      [
         {"delay":4, "type":"wolf"},
         {"delay":2.5, "type":"bear"},
         {"delay":2.75, "type":"wolf"},

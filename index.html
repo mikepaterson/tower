@@ -15,11 +15,24 @@
   <div id="gameScreen" style="display: none;">
     <div style="float: left">
       <canvas id="gameCanvas" width="1200" height="800"></canvas>
-      <div id="towerMenu">
-        <!-- Tower buttons will be added dynamically here -->
+      <div id="toolbar">
+
+        <div id="purchaseButtons">
+          <div id="towerMenu">
+            <!-- Tower buttons will be added dynamically here -->
+          </div>
+          <div id="farmMenu">
+            <!-- Farm buttons will be added dynamically here -->
+          </div>
+          <!-- <div id="toolMenu">
+            <button>Hammer</button>
+          </div> -->
+        </div>
+
+        <button id="cancelBtn" style="display: none;">Cancel</button>
       </div>
-      <button id="cancelBtn" style="display: none;">Cancel</button>
     </div>
+
     <div id="stats" style="float: left">
       Level: <span id="level">0</span><br/>
       Wave: <span id="wave">0</span><br/>
@@ -48,6 +61,8 @@
 
   <script src="enemy.js"></script>
   <script src="tower.js"></script>
+  <script src="farm.js"></script>
+  <script src="coin.js"></script>
   <script src="block.js"></script>
   <script src="bullet.js"></script>
   <script src="renderer.js"></script>

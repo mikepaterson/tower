@@ -29,15 +29,15 @@ canvas {
 
 
 
-#towerMenu button {
+#toolbar button {
   height: 110px;
   width: 110px;
 }
-#towerMenu button img {
+#toolbar button img {
   height: 60px;
 }
 
-#cancelBtn {
-  height: 110px;
-  width: 110px;
+#towerMenu, #farmMenu, #toolMenu {
+  float: left;
+  margin-right: 15px;
 }

@@ -1,6 +1,9 @@
 class UI {
-  placingTower = null;
+  placingObject = null;
+  // placingFarm = null;
+  // placingTool = null;
   towerButtons = [];
+  farmButtons = [];
 
   levelStat;
   waveStat;
@@ -33,15 +36,17 @@ class UI {
     document.getElementById("tryAgainBtn").addEventListener("click", () => this.game.restartGame());
     document.getElementById("playAgainBtn").addEventListener("click", () => this.game.restartGame());
     document.getElementById("newLevelBtn").addEventListener("click", () => this.game.startLevel());
-    this.cancelBtn.addEventListener("click", () => this.cancelTowerPurchase());
+    this.cancelBtn.addEventListener("click", () => this.cancelPurchase());
 
     this.game.renderer.gameCanvas.addEventListener("click", (event) => this.handleCanvasClick(event));
     this.game.renderer.gameCanvas.addEventListener("mousemove", (event) => this.handleCanvasCursor(event));
 
+    this.clickAudio = new Audio('sounds/click.mp3');
   }
 
   init() {
     this.createTowerButtons();
+    this.createFarmButtons();
   }
 
 
@@ -50,6 +55,7 @@ class UI {
   render() {
     this.updateStats();
     this.updateTowerButtons();
+    this.updateFarmButtons();
   }
 
   updateStats() {
@@ -63,29 +69,33 @@ class UI {
 
 
   handleCanvasClick(event) {
-    if (this.placingTower) {
-      // const rect = this.game.renderer.gameCanvas.getBoundingClientRect();
-      // const x = event.clientX - rect.left;
-      // const y = event.clientY - rect.top;
+    if (this.placingObject) {
+      if(this.placingObject instanceof Tower) {
+        this.game.placeTower(this.placingObject);
+      }
+      if(this.placingObject instanceof Farm) {
+        this.game.placeFarm(this.placingObject);
+      }
 
-      // var gridPosition = this.getGridPositionFromScreenPosition({x: x, y:y});
-      this.game.placeTower(this.placingTower);
-      this.setPlacingTower(null);
-      this.showTowerMenu();
+      this.setPlacingObject(null);
+      this.showButtons();
+      this.clickAudio.play();
     }
   }
 
   handleCanvasCursor(event) {
-    if (this.placingTower) {
-      const rect = this.game.renderer.gameCanvas.getBoundingClientRect();
-      const x = event.clientX - rect.left;
-      const y = event.clientY - rect.top;
+    const rect = this.game.renderer.gameCanvas.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
 
-      var gridPosition = this.getGridPositionFromScreenPosition({x: x, y:y});
+    var gridPosition = this.getGridPositionFromScreenPosition({x: x, y:y});
+
+    if (this.placingObject) {
       if(!this.game.isTileOccupied(gridPosition)) {
-        this.placingTower.gridPosition = gridPosition;
+        this.placingObject.gridPosition = gridPosition;
       }
     }
+
   }
 
 
@@ -110,34 +120,70 @@ class UI {
     });
   }
 
-  showTowerMenu() {
-    document.getElementById("towerMenu").style.display = 'block';
+  createFarmButtons(game) {
+    const farmMenu = document.getElementById("farmMenu");
+    Object.values(this.game.farmData).forEach((farmData, index) => {
+      const button = document.createElement("button");
+      button.innerHTML = `<img src="${farmData.image}"><br/>${farmData.name}<br/>(${farmData.cost} coins)`;
+      button.addEventListener("click", () => this.purchaseFarm(farmData.type));
+      button.farmType = farmData.type;
+      farmMenu.appendChild(button);
+      this.farmButtons.push(button);
+    });
   }
-  hideTowerMenu() {
-    document.getElementById("towerMenu").style.display = 'none';
+
+  updateFarmButtons() {
+    this.farmButtons.forEach(button => {
+      var farmType = button.farmType;
+      const farmData = this.game.farmData[farmType];
+      button.disabled = this.game.player.coins < farmData.cost;
+    });
+  }
+
+  showButtons() {
+    document.getElementById("purchaseButtons").style.display = 'block';
+  }
+  hideButtons() {
+    document.getElementById("purchaseButtons").style.display = 'none';
   }
 
 
 
-  setPlacingTower(towerType) {
-    this.placingTower = towerType;
-    this.cancelBtn.style.display = towerType ? "block" : "none";
-    this.hideTowerMenu();
+  setPlacingObject(placingObject) {
+    this.placingObject = placingObject;
+    this.cancelBtn.style.display = placingObject ? "block" : "none";
+    this.hideButtons();
+  }
+
+  cancelPlacingObject() {
+    this.setPlacingObject(null);
+    this.showButtons();
   }
 
   purchaseTower(towerType) {
     const towerCost = this.game.towerData[towerType].cost;
     if (this.game.player.coins >= towerCost) {
       this.game.player.coins -= towerCost;
-      this.setPlacingTower(new Tower(this.game, this.game.towerData[towerType]));
+      this.setPlacingObject(new Tower(this.game, this.game.towerData[towerType]));
+      this.clickAudio.play();
     }
   }
 
-  cancelTowerPurchase() {
-    this.setPlacingTower(null);
-    this.showTowerMenu();
+  purchaseFarm(farmType) {
+    const cost = this.game.farmData[farmType].cost;
+    if (this.game.player.coins >= cost) {
+      this.game.player.coins -= cost;
+      this.setPlacingObject(new Farm(this.game, this.game.farmData[farmType]));
+      this.clickAudio.play();
+    }
   }
 
+  cancelPurchase() {
+    this.game.player.coins += this.placingObject.cost;
+
+    this.cancelPlacingObject();
+    this.clickAudio.play();
+  }
 
 
 
