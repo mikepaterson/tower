@@ -36,12 +36,16 @@ class UI {
     document.getElementById("tryAgainBtn").addEventListener("click", () => this.game.restartGame());
     document.getElementById("playAgainBtn").addEventListener("click", () => this.game.restartGame());
     document.getElementById("newLevelBtn").addEventListener("click", () => this.game.startLevel());
+    document.getElementById("soundButton").addEventListener("click", () => {
+      this.game.audioManager.toggleMute()
+      document.getElementById("soundButton").innerHTML = this.game.audioManager.isMuted() ? 'Sound On' : 'Sound Off';
+    });
+
     this.cancelBtn.addEventListener("click", () => this.cancelPurchase());
 
     this.game.renderer.gameCanvas.addEventListener("click", (event) => this.handleCanvasClick(event));
     this.game.renderer.gameCanvas.addEventListener("mousemove", (event) => this.handleCanvasCursor(event));
 
-    this.clickAudio = new Audio('sounds/click.mp3');
   }
 
   init() {
@@ -79,7 +83,7 @@ class UI {
 
       this.setPlacingObject(null);
       this.showButtons();
-      this.clickAudio.play();
+      this.game.audioManager.play('sounds/click.mp3');
     }
   }
 
@@ -165,7 +169,7 @@ class UI {
     if (this.game.player.coins >= towerCost) {
       this.game.player.coins -= towerCost;
       this.setPlacingObject(new Tower(this.game, this.game.towerData[towerType]));
-      this.clickAudio.play();
+      this.game.audioManager.play('sounds/click.mp3');
     }
   }
 
@@ -174,7 +178,7 @@ class UI {
     if (this.game.player.coins >= cost) {
       this.game.player.coins -= cost;
       this.setPlacingObject(new Farm(this.game, this.game.farmData[farmType]));
-      this.clickAudio.play();
+      this.game.audioManager.play('sounds/click.mp3');
     }
   }
 
@@ -182,7 +186,7 @@ class UI {
     this.game.player.coins += this.placingObject.cost;
 
     this.cancelPlacingObject();
-    this.clickAudio.play();
+    this.game.audioManager.play('sounds/click.mp3');
   }
 
 

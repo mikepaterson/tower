@@ -4,9 +4,6 @@ class Coin {
     this.image = new Image();
     this.image.src = 'images/coin.png';
 
-    this.spawnAudio = new Audio('sounds/coin.mp3');
-    this.collectAudio = new Audio('sounds/coin.mp3');
-
     this.screenPosition = screenPosition;
     this.travelSpeed = 15;
 
@@ -16,7 +13,7 @@ class Coin {
 
   spawn(currentTime) {
     this.lastMoveTime = currentTime;
-    this.spawnAudio.play();
+    this.game.audioManager.play('sounds/coin.mp3');
   }
 
   update(currentTime) {
@@ -42,7 +39,7 @@ class Coin {
       if(this.screenPosition.x === targetScreenPosition.x && this.screenPosition.y === targetScreenPosition.y) {
         this.game.player.coins++;
         this.dead = true;
-        this.collectAudio.play();
+        this.game.audioManager.play('sounds/coin.mp3');
       }
     }
     this.lastMoveTime = currentTime;

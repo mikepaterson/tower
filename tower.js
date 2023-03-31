@@ -14,8 +14,6 @@ class Tower {
     this.cost = towerData.cost;
     this.lastAttackTime = 0;
 
-    this.shootAudio = new Audio('sounds/shoot.mp3');
-
   }
 
   canAttack(currentTime) {
@@ -33,7 +31,7 @@ class Tower {
       console.log(this.type+' attacking '+target.type);
       this.lastAttackTime = currentTime
 
-      this.shootAudio.play();
+      this.game.audioManager.play('sounds/shoot.mp3');
       return new Bullet(this.game, this.bulletImageSrc, this.attackDamage, this.bulletSpeed, this.game.ui.getScreenPositionFromGridPosition(this.gridPosition), target);
     }
 

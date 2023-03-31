@@ -32,6 +32,12 @@ class Game {
 
     this.renderer = new Renderer(this);
     this.ui = new UI(this);
+    this.audioManager = new AudioManager();
+
+    this.audioManager.load('sounds/click.mp3');
+    this.audioManager.load('sounds/shoot.mp3');
+    this.audioManager.load('sounds/hit.mp3');
+    this.audioManager.load('sounds/coin.mp3');
   }
 
   init() {

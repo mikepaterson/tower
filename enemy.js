@@ -9,8 +9,6 @@ class Enemy {
     this.image = new Image();
     this.image.src = enemyTypeData.image;
 
-    this.hitAudio = new Audio('sounds/hit.mp3');
-
     //this.path = path;
 //    this.pathIndex = 0;
     //this.position = { ...this.path[this.pathIndex] };
@@ -39,7 +37,7 @@ class Enemy {
   }
 
   takeDamage(damagePoints) {
-    this.hitAudio.play();
+    this.game.audioManager.play('sounds/hit.mp3');
     this.health -= damagePoints;
     if (this.health < 0) {
       this.health = 0;
