@@ -4,7 +4,7 @@
     "name": "Wolf",
     "image": "images/wolf.png",
     "health": 100,
-    "moveCooldown": 0.3,
+    "travelSpeed": 3,
     "coinValue": 3
   },
   "bear": {
@@ -12,7 +12,7 @@
     "name": "Bear",
     "image": "images/bear.png",
     "health": 300,
-    "moveCooldown": 0.8,
+    "travelSpeed": 2,
     "coinValue": 5
   },
   "lion": {
@@ -20,7 +20,7 @@
     "name": "Lion",
     "image": "images/lion.png",
     "health": 200,
-    "moveCooldown": 0.5,
+    "travelSpeed": 2.5,
     "coinValue": 6
   },
   "tiger": {
@@ -28,7 +28,7 @@
     "name": "Tiger",
     "image": "images/tiger.png",
     "health": 250,
-    "moveCooldown": 0.5,
+    "travelSpeed": 2.5,
     "coinValue": 7
   },
   "elephant": {
@@ -36,7 +36,7 @@
     "name": "Elephant",
     "image": "images/elephant.png",
     "health": 800,
-    "moveCooldown": 1.5,
+    "travelSpeed": 1,
     "coinValue": 10
   },
   "snake": {
@@ -44,7 +44,7 @@
     "name": "snake",
     "image": "images/snake.png",
     "health": 10,
-    "moveCooldown": 0.75,
+    "travelSpeed": 1.2,
     "coinValue": 1
   }
 }

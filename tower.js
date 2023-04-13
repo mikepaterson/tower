@@ -1,6 +1,8 @@
-class Tower {
+class Tower extends BaseObject {
+
   constructor(game, towerData, gridPosition) {
-    this.game = game;
+    super(game);
+
     this.type = towerData.type;
     this.image = new Image();
     this.image.src = towerData.image;
@@ -11,9 +13,31 @@ class Tower {
     this.bulletImageSrc = towerData.bulletImage;
     this.bulletSpeed = towerData.bulletSpeed;
     this.bulletDamage = towerData.bulletDamage;
+    this.class = towerData.class;
+    this.upgradeType = towerData.upgradeType;
+
     this.cost = towerData.cost;
     this.lastAttackTime = 0;
 
+
+  }
+
+
+  spawn() {
+
+  }
+
+  update(currentTime) {
+    if(!this.lastAttackTime) {
+      this.lastAttackTime = currentTime;
+    }
+
+    if(this.canAttack(currentTime)) {
+      const bullet = this.attack(currentTime);
+      if(bullet) {
+        this.game.addObject(bullet);
+      }
+    }
   }
 
   canAttack(currentTime) {
@@ -25,7 +49,7 @@ class Tower {
   }
 
   attack(currentTime) {
-    const target = this.findTarget(this.game.enemies);
+    const target = this.findTarget(this.game.enemies());
 
     if (target) {
       console.log(this.type+' attacking '+target.type);

@@ -107,12 +107,14 @@ class UI {
   createTowerButtons(game) {
     const towerMenu = document.getElementById("towerMenu");
     Object.values(this.game.towerData).forEach((towerData, index) => {
-      const button = document.createElement("button");
-      button.innerHTML = `<img src="${towerData.image}"><br/>${towerData.name}<br/>(${towerData.cost} coins)`;
-      button.addEventListener("click", () => this.purchaseTower(towerData.type));
-      button.towerType = towerData.type;
-      towerMenu.appendChild(button);
-      this.towerButtons.push(button);
+      if(towerData.cost) {
+        const button = document.createElement("button");
+        button.innerHTML = `<img src="${towerData.image}"><br/>${towerData.name}<br/>(${towerData.cost} coins)`;
+        button.addEventListener("click", () => this.purchaseTower(towerData.type));
+        button.towerType = towerData.type;
+        towerMenu.appendChild(button);
+        this.towerButtons.push(button);
+      }
     });
   }
 

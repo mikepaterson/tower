@@ -6,16 +6,12 @@ class Game {
   };
 
   levels = [];
+
   levelIndex = 0;
   waveIndex = 0;
   spawnIndex = 0;
 
   objects = [];
-  enemies = [];
-  towers = [];
-  farms = [];
-  bullets = [];
-  blocks = [];
 
   isPlaying = false;
   gridSize = {x: 20, y: 15};
@@ -38,6 +34,8 @@ class Game {
     this.audioManager.load('sounds/shoot.mp3');
     this.audioManager.load('sounds/hit.mp3');
     this.audioManager.load('sounds/coin.mp3');
+
+    this.audioManager.toggleMute();
   }
 
   init() {
@@ -54,14 +52,8 @@ class Game {
 
   startGame() {
     this.levelIndex = 0;
-    this.waveIndex = 0;
-    this.spanIndex = 0;
     this.player.health = 4;
-    this.player.coins = 30;
-    this.enemies = [];
-    this.towers = [];
-    this.bullets = [];
-    this.farms = [];
+    this.player.coins = 100;
 
     this.gameLoop();
     this.startLevel();
@@ -75,8 +67,11 @@ class Game {
 
   startLevel() {
 
+    this.waveIndex = 0;
+    this.spanIndex = 0;
+    this.objects = [];
+
     //generate blocks
-    this.blocks = [];
     var tiles = Math.ceil(this.gridSize.x * this.gridSize.y * .40);
     tiles = (tiles + (this.levelIndex * tiles/3))
     for(var i=0; i<tiles ; i++) {
@@ -86,7 +81,7 @@ class Game {
       }
       if(!this.isTileOccupied(gridPosition)) {
         var block = new Block(this, this.blockData['rock'], gridPosition);
-        this.blocks.push(block);
+        this.addObject(block);
       }
     }
 
@@ -110,67 +105,28 @@ class Game {
       this.spawnEnemies(currentTime);
 
       this.objects.forEach(object => object.update(currentTime));
-      this.objects = this.objects.filter(object => !object.dead);
+      this.filterDeadObjects();
 
 
-      this.enemies = this.enemies.filter(enemy => !enemy.isDead());
-
-      this.enemies.forEach(enemy => enemy.move(currentTime));
-
-      this.bullets.forEach(bullet => {
-        bullet.move(currentTime)
-        if(bullet.hasReachedTarget(this) && !bullet.target.isDead()) {
-          bullet.hitTarget();
-
-          if(bullet.target.isDead()) {
-            console.log(bullet.target.type+' taking damage:  '+bullet.target.health+'left');
-            console.log(bullet.target.type+' dead:  '+bullet.target.coinValue+' coins');
-
-            this.spawnCoins(bullet.target.coinValue, bullet.target.gridPosition);
-          }
-        }
-      });
-
-      this.bullets = this.bullets.filter(bullet => !bullet.hasReachedTarget(this));
-
-      this.towers.forEach(tower => {
-        if(!tower.lastAttackTime) {
-          tower.lastAttackTime = currentTime;
-        }
-
-        if(tower.canAttack(currentTime)) {
-          const bullet = tower.attack(currentTime);
-          if(bullet) {
-            this.bullets.push(bullet);
-          }
-            // const target = bullet.target;
-            // target.takeDamage(bullet.damagePoints);
-
-        }
-      });
-
-      this.farms.forEach(farm => {
-        farm.update(currentTime);
-      });
-
-
-      if(this.spawnIndex >= this.currentLevel().waves[this.waveIndex].length && this.enemies.length===0) {
+      if(this.spawnIndex >= this.currentLevel().waves[this.waveIndex].length && this.enemies().length===0) {
         console.log('next wave');
         //next wave
         this.spawnIndex = 0;
         this.waveIndex++;
       }
 
-      if(this.waveIndex > this.currentLevel().waves.length-1 && this.enemies.length===0) {
+      if(this.waveIndex > this.currentLevel().waves.length-1 && this.enemies().length===0) {
         //next level
         console.log('next level');
 
         //clear towers and give back portion of cost
-        this.towers.forEach(tower => {
-          this.player.coins += Math.ceil(tower.cost * 0.25);
-        });
-        this.towers = [];
-        this.farms = [];
+        // this.towers().forEach(tower => {
+        //   if(tower.cost) {
+        //     this.player.coins += Math.ceil(tower.cost * 0.25);
+        //   }
+        // });
+
+        this.player.coins += 100;
 
         this.spawnIndex = 0;
         this.waveIndex = 0;
@@ -203,6 +159,29 @@ class Game {
   }
 
 
+  filterDeadObjects() {
+    this.objects = this.objects.filter(object => !object.dead);
+  }
+
+  addObject(object) {
+    this.objects.push(object);
+
+
+    this.objects.sort((a, b) => {
+      const order = ['Block', 'Farm', 'Tower', 'Enemy', 'Bullet', 'Coin'];
+
+      const aIndex = order.indexOf(a.constructor.name);
+      const bIndex = order.indexOf(b.constructor.name);
+
+      if (aIndex < bIndex) {
+        return -1;
+      } else if (aIndex > bIndex) {
+        return 1;
+      } else {
+        return 0;
+      }
+    });
+  }
 
 
   spawnEnemies(currentTime) {
@@ -215,7 +194,7 @@ class Game {
         newEnemy.gridPosition = this.currentLevel().path[0];
         newEnemy.lastMoveTime = currentTime;
 
-        this.enemies.push(newEnemy);
+        this.addObject(newEnemy);
 
         console.log('spawned '+newEnemy.type+' enemy:  wave'+this.waveIndex+' spawn'+this.spawnIndex);
 
@@ -232,25 +211,56 @@ class Game {
     setTimeout(() => {
       var coin = new Coin(this, this.ui.getScreenPositionFromGridPosition(gridPosition));
       coin.spawn();
-      this.objects.push(coin);
+      this.addObject(coin);
     }, i*75);
   }
 
 
 
   placeTower(tower) {
-    //if(this.currentLevel().canPlaceTower(gridPosition)) {
-      //tower.gridPosition = gridPosition;
+    this.addObject(tower);
+    this.ui.setPlacingObject(null);
 
-      this.towers.push(tower);
-      this.ui.setPlacingObject(null);
-    // } else {
-    //   //beep
-    // }
+    tower.spawn();
+
+    //check for tower upgrades
+    this.towers().forEach(checkTower => {
+      if(checkTower.upgradeType) {
+        var up = false;
+        var right = false;
+        var diagonal = false;
+
+
+        this.towers().forEach(tower => {
+          if(tower.type === checkTower.type) {
+            if(tower.gridPosition.x === checkTower.gridPosition.x && tower.gridPosition.y === checkTower.gridPosition.y + 1)
+              up = tower;
+            if(tower.gridPosition.x === checkTower.gridPosition.x + 1 && tower.gridPosition.y === checkTower.gridPosition.y)
+              right = tower;
+            if(tower.gridPosition.x === checkTower.gridPosition.x + 1 && tower.gridPosition.y === checkTower.gridPosition.y + 1)
+              diagonal = tower;
+          }
+        });
+
+        if(up && right && diagonal) {
+          up.dead = true;
+          right.dead = true;
+          diagonal.dead = true;
+          checkTower.dead = true;
+
+          this.filterDeadObjects();
+
+          console.log("upgrading to "+checkTower.upgradeType);
+          var upgradeTower = new Tower(this, this.towerData[checkTower.upgradeType], {...checkTower.gridPosition});
+
+          this.placeTower(upgradeTower);
+        }
+      }
+    });
   }
 
   placeFarm(farm) {
-      this.farms.push(farm);
+      this.addObject(farm);
       this.ui.setPlacingObject(null);
   }
 
@@ -264,15 +274,41 @@ class Game {
       }
     });
 
-    this.towers.forEach(tower => {
-      if(tower.gridPosition.x===gridPosition.x && tower.gridPosition.y===gridPosition.y) {
+    // this.towers().forEach(tower => {
+    //   if(tower.gridPosition.x===gridPosition.x && tower.gridPosition.y===gridPosition.y) {
+    //     isOccupied = true;
+    //   }
+
+    //   if(tower.class === 'mega') {
+    //     if(tower.gridPosition && tower.gridPosition.x+1===gridPosition.x && tower.gridPosition.y===gridPosition.y) {
+    //       isOccupied = true;
+    //     }
+    //     if(tower.gridPosition && tower.gridPosition.x===gridPosition.x && tower.gridPosition.y+1===gridPosition.y) {
+    //       isOccupied = true;
+    //     }
+    //     if(tower.gridPosition && tower.gridPosition.x+1===gridPosition.x && tower.gridPosition.y+1===gridPosition.y) {
+    //       isOccupied = true;
+    //     }
+    //   }
+    // });
+
+    this.objects.forEach(object => {
+      if(object.gridPosition && object.gridPosition.x===gridPosition.x && object.gridPosition.y===gridPosition.y) {
         isOccupied = true;
       }
-    });
 
-    this.blocks.forEach(block => {
-      if(block.gridPosition.x===gridPosition.x && block.gridPosition.y===gridPosition.y) {
-        isOccupied = true;
+      if(object instanceof Tower) {
+        if(object.class === 'mega') {
+          if(object.gridPosition && object.gridPosition.x+1===gridPosition.x && object.gridPosition.y===gridPosition.y) {
+            isOccupied = true;
+          }
+          if(object.gridPosition && object.gridPosition.x===gridPosition.x && object.gridPosition.y+1===gridPosition.y) {
+            isOccupied = true;
+          }
+          if(object.gridPosition && object.gridPosition.x+1===gridPosition.x && object.gridPosition.y+1===gridPosition.y) {
+            isOccupied = true;
+          }
+        }
       }
     });
 
@@ -281,10 +317,20 @@ class Game {
 
 
 
+  enemies() {
+    return this.objects.filter((object)=>object instanceof Enemy);
+  }
 
+  towers() {
+    return this.objects.filter((object)=>object instanceof Tower);
+  }
+
+  bullets() {
+    return this.objects.filter((object)=>object instanceof Bullet);
+  }
 
   checkEnemyReachEnd() {
-    this.enemies.forEach(enemy => {
+    this.enemies().forEach(enemy => {
       if (this.currentLevel().isEndTile(enemy.gridPosition)) {
         this.player.health -= 1;
         enemy.die();
@@ -294,7 +340,7 @@ class Game {
   }
 
   checkLevelComplete() {
-    if (this.waveIndex=== this.currentLevel().waves.length-1 && this.enemies.length === 0) {
+    if (this.waveIndex=== this.currentLevel().waves.length-1 && this.enemies().length === 0) {
       this.levelIndex++;
       this.waveIndex = 0;
       this.spawnIndex = 0;

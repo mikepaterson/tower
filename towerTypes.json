@@ -8,7 +8,19 @@
     "attackRange": 4,
     "bulletImage": "images/apple_bullet.png",
     "bulletSpeed": 7.5,
-    "image": "images/apple.png"
+    "image": "images/apple.png",
+    "upgradeType": "megaApple"
+  },
+  "megaApple": {
+    "type": "megaApple",
+    "name": "Mega Apple Tower",
+    "attackDamage": 120,
+    "attackCooldown": 0.5,
+    "attackRange": 5,
+    "bulletImage": "images/apple_bullet.png",
+    "bulletSpeed": 8.5,
+    "image": "images/apple.png",
+    "class": "mega"
   },
   "banana": {
     "type": "banana",
@@ -19,7 +31,19 @@
     "attackRange": 3,
     "bulletImage": "images/banana_bullet.png",
     "bulletSpeed": 10,
-    "image": "images/banana.png"
+    "image": "images/banana.png",
+    "upgradeType": "megaBanana"
+  },
+  "megaBanana": {
+    "type": "megaBanana",
+    "name": "Mega Banana Tower",
+    "attackDamage": 10,
+    "attackCooldown": 0.25,
+    "attackRange": 3,
+    "bulletImage": "images/banana_bullet.png",
+    "bulletSpeed": 10,
+    "image": "images/banana.png",
+    "class": "mega"
   },
   "orange": {
     "type": "orange",

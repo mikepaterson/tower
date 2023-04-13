@@ -1,6 +1,7 @@
-class Bullet {
+class Bullet extends BaseObject {
   constructor(game, imageSrc, damagePoints, travelSpeed, screenPosition, target ) {
-    this.game = game;
+    super(game);
+
     this.image = new Image();
     this.image.src = imageSrc;
 
@@ -12,7 +13,7 @@ class Bullet {
     this.lastMoveTime = 0;
   }
 
-  move(currentTime) {
+  update(currentTime) {
     var targetScreenPosition = this.game.ui.getScreenPositionFromGridPosition(this.target.gridPosition);
 
     if(this.lastMoveTime) {
@@ -30,10 +31,19 @@ class Bullet {
       }
     }
     this.lastMoveTime = currentTime;
+
+    if(this.hasReachedTarget()) {
+      this.dead = true;
+
+      if(!this.target.isDead()) {
+        this.hitTarget();
+      }
+    }
+
   }
 
-  hasReachedTarget(game) {
-    var targetScreenPosition = game.ui.getScreenPositionFromGridPosition(this.target.gridPosition);
+  hasReachedTarget() {
+    var targetScreenPosition = this.game.ui.getScreenPositionFromGridPosition(this.target.gridPosition);
 
     return this.screenPosition.x === targetScreenPosition.x && this.screenPosition.y === targetScreenPosition.y;
   }

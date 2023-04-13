@@ -22,14 +22,15 @@ class Renderer {
       this.renderLevel(this.game.currentLevel());
 
 
-      this.renderBlocks();
-      this.renderTowers(this.game.towers);
-      this.renderFarms();
-      this.renderEnemies(this.game.enemies);
-      this.renderBullets(this.game.bullets);
-      this.renderPlacingObject();
+      //this.renderTowers(this.game.towers);
+      //this.renderFarms();
+      //this.renderEnemies(this.game.enemies);
+      //this.renderBullets(this.game.bullets);
 
       this.renderObjects();
+      this.renderPlacingObject();
+
+
 
     }
   }
@@ -55,10 +56,7 @@ class Renderer {
     //path
     level.path.forEach((tile,index) => {
       var color;
-      if(index===0) {
-        //start is blue
-        color = 'rgb(70,70,150)';
-      } else if(index===level.path.length-1) {
+      if(index===level.path.length-1) {
         //end is red
         color = 'rgb(150,70,70)';
       } else {
@@ -75,8 +73,12 @@ class Renderer {
 
   renderObjects() {
     this.game.objects.forEach(object => {
-      var x = object.gridPosition ? object.gridPosition.x * this.tileWidth : object.screenPosition.x;
-      var y = object.gridPosition ? object.gridPosition.y * this.tileWidth : object.screenPosition.y;
+      var x = object.screenPosition ? object.screenPosition.x : object.gridPosition.x * this.tileWidth;
+      var y = object.screenPosition ? object.screenPosition.y : object.gridPosition.y * this.tileHeight;
+
+      var scale = 1;
+      if(object instanceof Tower && object.class==='mega')
+        scale = 2;
 
       this.ctx.drawImage(
         object.image,
@@ -86,63 +88,49 @@ class Renderer {
         object.image.height,
         x,
         y,
-        this.tileWidth,
-        this.tileHeight
+        this.tileWidth * scale,
+        this.tileHeight * scale
       );
     });
 
   }
 
-  renderBlocks() {
-    this.game.blocks.forEach(block => {
-      this.ctx.drawImage(
-        block.image,
-        0,
-        0,
-        block.image.width,
-        block.image.height,
-        block.gridPosition.x * this.tileWidth,
-        block.gridPosition.y * this.tileHeight,
-        this.tileWidth,
-        this.tileHeight
-      );
-    });
-  }
 
 
-  renderTowers(towers) {
-    towers.forEach(tower => {
-      this.ctx.drawImage(
-        tower.image,
-        0,
-        0,
-        tower.image.width,
-        tower.image.height,
-        tower.gridPosition.x * this.tileWidth,
-        tower.gridPosition.y * this.tileHeight,
-        this.tileWidth,
-        this.tileHeight
-      );
+  // renderTowers(towers) {
+  //   towers.forEach(tower => {
+  //     var scale = tower.class==='mega' ? 2 : 1;
+  //     this.ctx.drawImage(
+  //       tower.image,
+  //       0,
+  //       0,
+  //       tower.image.width,
+  //       tower.image.height,
+  //       tower.gridPosition.x * this.tileWidth,
+  //       tower.gridPosition.y * this.tileHeight,
+  //       this.tileWidth * scale,
+  //       this.tileHeight * scale
+  //     );
 
-    });
-  }
+  //   });
+  // }
 
-  renderFarms() {
-    this.game.farms.forEach(farm => {
-      this.ctx.drawImage(
-        farm.image,
-        0,
-        0,
-        farm.image.width,
-        farm.image.height,
-        farm.gridPosition.x * this.tileWidth,
-        farm.gridPosition.y * this.tileHeight,
-        this.tileWidth,
-        this.tileHeight
-      );
+  // renderFarms() {
+  //   this.game.farms.forEach(farm => {
+  //     this.ctx.drawImage(
+  //       farm.image,
+  //       0,
+  //       0,
+  //       farm.image.width,
+  //       farm.image.height,
+  //       farm.gridPosition.x * this.tileWidth,
+  //       farm.gridPosition.y * this.tileHeight,
+  //       this.tileWidth,
+  //       this.tileHeight
+  //     );
 
-    });
-  }
+  //   });
+  // }
 
   renderPlacingObject() {
     if(this.game.ui.placingObject) {
@@ -151,6 +139,22 @@ class Renderer {
         if(tower.gridPosition) {
           this.ctx.globalAlpha = 0.4;
           //todo draw circle showing range
+
+          const centerX = (tower.gridPosition.x * this.tileWidth) + (this.tileWidth/2);
+          const centerY = (tower.gridPosition.y * this.tileHeight) + (this.tileHeight/2);
+          const radius = tower.attackRange * this.tileWidth;
+
+          this.ctx.beginPath();
+          this.ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI, false);
+          this.ctx.fillStyle = 'green';
+          this.ctx.fill();
+          this.ctx.lineWidth = 5;
+          this.ctx.strokeStyle = '#003300';
+          this.ctx.stroke();
+
+          this.ctx.lineWidth = 1;
+          this.ctx.strokeStyle = '#000000';
+
           this.ctx.drawImage(
             tower.image,
             0,
@@ -189,21 +193,6 @@ class Renderer {
   }
 
 
-  renderEnemies(enemies) {
-    enemies.forEach(enemy => {
-      this.ctx.drawImage(
-        enemy.image,
-        0,
-        0,
-        enemy.image.width,
-        enemy.image.height,
-        enemy.gridPosition.x * this.tileWidth,
-        enemy.gridPosition.y * this.tileHeight,
-        this.tileWidth,
-        this.tileHeight
-      );
-    });
-  }
 
   renderBullets(bullets) {
     bullets.forEach(bullet => {

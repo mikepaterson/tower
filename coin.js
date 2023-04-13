@@ -1,6 +1,8 @@
-class Coin {
+class Coin extends BaseObject {
+
   constructor(game, screenPosition) {
-    this.game = game;
+    super(game);
+
     this.image = new Image();
     this.image.src = 'images/coin.png';
 
@@ -8,7 +10,6 @@ class Coin {
     this.travelSpeed = 15;
 
     this.lastMoveTime = 0;
-    this.dead = false;
   }
 
   spawn(currentTime) {
@@ -18,8 +19,8 @@ class Coin {
 
   update(currentTime) {
     var targetScreenPosition = {
-      x: this.game.renderer.tileWidth * this.game.gridSize.x,
-      y: 0,
+      x: this.game.renderer.tileWidth * (this.game.gridSize.x -1),
+      y: -this.game.renderer.tileHeight,
     }
 
     if(this.lastMoveTime) {

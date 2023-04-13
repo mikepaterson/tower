@@ -13,7 +13,20 @@
   </div>
 
   <div id="gameScreen" style="display: none;">
-    <div style="float: left">
+    <div id="banner">Hint: Place 4 of the same tower in a 2x2 square to upgrade</div>
+    <div id="stats">
+      <div class="left">
+        <div>Level: <span id="level">0</span></div>
+        <div>Wave: <span id="wave">0</span></div>
+        <div><button id="soundButton">Sound On</button></div>
+      </div>
+      <div class="right">
+        <div><img src="images/heart.png" style="height: 20px; vertical-align: middle;"> <span id="health">0</span></div>
+        <div><img src="images/coin.png" style="height: 20px; vertical-align: middle;">  <span id="coins">0</span></div>
+      </div>
+    </div>
+
+    <div>
       <canvas id="gameCanvas" width="1200" height="800"></canvas>
       <div id="toolbar">
 
@@ -31,15 +44,6 @@
 
         <button id="cancelBtn" style="display: none;">Cancel</button>
       </div>
-    </div>
-
-    <div id="stats" style="float: left">
-      Level: <span id="level">0</span><br/>
-      Wave: <span id="wave">0</span><br/>
-      Heath: <span id="health">0</span><br/>
-      Coins: <span id="coins">0</span><br/>
-      <br/>
-      <button id="soundButton">Sound Off</button>
     </div>
   </div>
 
@@ -61,6 +65,7 @@
     <button id="tryAgainBtn">Play Again</button>
   </div>
 
+  <script src="baseObject.js"></script>
   <script src="enemy.js"></script>
   <script src="tower.js"></script>
   <script src="farm.js"></script>
