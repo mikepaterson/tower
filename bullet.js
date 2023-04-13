@@ -14,7 +14,8 @@ class Bullet extends BaseObject {
   }
 
   update(currentTime) {
-    var targetScreenPosition = this.game.ui.getScreenPositionFromGridPosition(this.target.gridPosition);
+    //var targetScreenPosition = this.game.ui.getScreenPositionFromGridPosition(this.target.Position);
+    var targetScreenPosition = this.target.screenPosition;
 
     if(this.lastMoveTime) {
       const dx = targetScreenPosition.x - this.screenPosition.x;
@@ -43,7 +44,7 @@ class Bullet extends BaseObject {
   }
 
   hasReachedTarget() {
-    var targetScreenPosition = this.game.ui.getScreenPositionFromGridPosition(this.target.gridPosition);
+    var targetScreenPosition = this.target.screenPosition;
 
     return this.screenPosition.x === targetScreenPosition.x && this.screenPosition.y === targetScreenPosition.y;
   }
