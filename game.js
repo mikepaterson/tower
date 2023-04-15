@@ -14,7 +14,7 @@ class Game {
   objects = [];
 
   isPlaying = false;
-  gridSize = {x: 20, y: 15};
+  gridSize = {x: 40, y: 30};
   lastSpawnTime =  0;
   lastRenderTime = 0;
 
