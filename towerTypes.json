@@ -55,5 +55,11 @@
     "bulletImage": "images/orange_bullet.png",
     "bulletSpeed": 3,
     "image": "images/orange.png"
+  },
+  "rock": {
+    "type": "rock",
+    "name": "Rock",
+    "cost": 45,
+    "image": "images/rock.png"
   }
 }

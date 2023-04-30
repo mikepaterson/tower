@@ -27,5 +27,10 @@ class Farm {
     }
   }
 
+  takeDamage(enemy, damagePoints) {
+    this.game.audioManager.play('sounds/hit.mp3');
+    this.dead = true;
+    enemy.dead = true;
+  }
 
 }

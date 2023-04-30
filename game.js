@@ -1,3 +1,15 @@
+
+States = {
+  GameStart: 'gameStart',
+  LevelStart: 'levelStart',
+  Build: 'build',
+  Defend: 'defend',
+  SeasonEnd: 'seasonEnd',
+  yearEnd: 'yearEnd',
+  LevelEnd: 'levelEnd',
+  GameOver: 'GameOver'
+};
+
 class Game {
 
   player = {
@@ -14,10 +26,16 @@ class Game {
   objects = [];
 
   isPlaying = false;
-  gridSize = {x: 30, y: 20};
+  gridSize = {x: 30, y: 24};
+  grid = {
+    width: this.gridSize.x,
+    height: this.gridSize.y,
+    nodes: []
+  };
   lastSpawnTime =  0;
   lastRenderTime = 0;
 
+  state = States.GameStart;
 
   constructor(levelData, enemyData, towerData, blockData, farmData) {
     this.levels = levelData.map(data => new Level(data));
@@ -71,13 +89,38 @@ class Game {
     this.spanIndex = 0;
     this.objects = [];
 
+    //generate grid
+    this.grid.nodes = [];
+    for(var y=0; y<this.gridSize.y; y++) {
+      this.grid.nodes[y] = [];
+      for(var x=0; x<this.gridSize.x; x++) {
+        this.grid.nodes[y][x] = {
+          x: x,
+          y: y,
+          walkable: true,
+        }
+      }
+    }
+
+    this.pathFinder = new PathFinder(this.grid);
+
+    //place townhall
+    this.townHall = new Townhall(
+      this,
+      {
+        x: Math.floor((Math.random() * this.gridSize.x/2) + this.gridSize.x/4),
+        y: Math.floor((Math.random() * this.gridSize.y/2) + this.gridSize.y/4)
+      }
+    );
+    this.addObject(this.townHall);
+
     //generate blocks
     var tiles = Math.ceil(this.gridSize.x * this.gridSize.y * .40);
     tiles = (tiles + (this.levelIndex * tiles/3))
     for(var i=0; i<tiles ; i++) {
       var gridPosition = {
-        x: Math.floor(Math.random() * this.gridSize.x),
-        y: Math.floor(Math.random() * this.gridSize.y)
+        x: 1 + Math.floor(Math.random() * (this.gridSize.x-2)),
+        y: 1 + Math.floor(Math.random() * (this.gridSize.y-2))
       }
       if(!this.isTileOccupied(gridPosition)) {
         var block = new Block(this, this.blockData['rock'], gridPosition);
@@ -166,7 +209,6 @@ class Game {
   addObject(object) {
     this.objects.push(object);
 
-
     this.objects.sort((a, b) => {
       const order = ['Block', 'Farm', 'Tower', 'Enemy', 'Bullet', 'Coin'];
 
@@ -181,6 +223,16 @@ class Game {
         return 0;
       }
     });
+
+    if(object instanceof Block) {
+      this.grid.nodes[object.gridPosition.y][object.gridPosition.x].walkable = false;
+    }
+
+    this.objects
+      .filter(object => object instanceof Enemy)
+      .forEach(object => {
+        object.pickTarget();
+      });
   }
 
 
@@ -191,10 +243,26 @@ class Game {
     if(nextSpawn && currentTime > this.lastSpawnTime + (nextSpawn.delay*1000)) {
       const newEnemy = new Enemy(this, this.enemyData[nextSpawn.type]);
       if (newEnemy) {
-        newEnemy.gridPosition = this.currentLevel().path[0];
+        //newEnemy.gridPosition = this.currentLevel().path[0];
+
+        var isSide = Math.random() > 0.5;
+        if(isSide) {
+          newEnemy.gridPosition = {
+            x: Math.random() > 0.5 ? 0 : this.gridSize.x,
+            y: Math.floor(Math.random() * this.gridSize.y-1),
+          };
+        } else {
+          newEnemy.gridPosition = {
+            x: Math.floor(Math.random() * this.gridSize.x-1),
+            y: Math.random() > 0.5 ? 0 : this.gridSize.y-1,
+          }
+        }
+
         newEnemy.lastMoveTime = currentTime;
 
         this.addObject(newEnemy);
+
+        newEnemy.pickTarget();
 
         console.log('spawned '+newEnemy.type+' enemy:  wave'+this.waveIndex+' spawn'+this.spawnIndex);
 
@@ -268,11 +336,11 @@ class Game {
 
   isTileOccupied(gridPosition) {
     var isOccupied = false;
-    this.currentLevel().path.forEach(tile => {
-      if(tile.x===gridPosition.x && tile.y===gridPosition.y) {
-        isOccupied = true;
-      }
-    });
+    // this.currentLevel().path.forEach(tile => {
+    //   if(tile.x===gridPosition.x && tile.y===gridPosition.y) {
+    //     isOccupied = true;
+    //   }
+    // });
 
     // this.towers().forEach(tower => {
     //   if(tower.gridPosition.x===gridPosition.x && tower.gridPosition.y===gridPosition.y) {

@@ -54,20 +54,20 @@ class Renderer {
     }
 
     //path
-    level.path.forEach((tile,index) => {
-      var color;
-      if(index===level.path.length-1) {
-        //end is red
-        color = 'rgb(150,70,70)';
-      } else {
-        //regular path is brown
-        color = 'rgb(109,93,70)';
-      }
+    // level.path.forEach((tile,index) => {
+    //   var color;
+    //   if(index===level.path.length-1) {
+    //     //end is red
+    //     color = 'rgb(150,70,70)';
+    //   } else {
+    //     //regular path is brown
+    //     color = 'rgb(109,93,70)';
+    //   }
 
-      this.ctx.fillStyle = color;
-      this.ctx.fillRect(tile.x * this.tileWidth, tile.y * this.tileHeight, this.tileWidth, this.tileHeight);
-      this.ctx.strokeRect(tile.x * this.tileWidth, tile.y * this.tileHeight, this.tileWidth, this.tileHeight);
-    });
+    //   this.ctx.fillStyle = color;
+    //   this.ctx.fillRect(tile.x * this.tileWidth, tile.y * this.tileHeight, this.tileWidth, this.tileHeight);
+    //   this.ctx.strokeRect(tile.x * this.tileWidth, tile.y * this.tileHeight, this.tileWidth, this.tileHeight);
+    // });
 
   }
 

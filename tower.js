@@ -41,6 +41,11 @@ class Tower extends BaseObject {
   }
 
   canAttack(currentTime) {
+    if(!this.attackDamage) {
+      return false;
+    }
+
+
     if (currentTime > this.lastAttackTime  + (this.attackCooldown * 1000)) {
       return true;
     } else {
@@ -80,5 +85,10 @@ class Tower extends BaseObject {
     return target;
   }
 
+  takeDamage(enemy, damagePoints) {
+    this.game.audioManager.play('sounds/hit.mp3');
+    this.dead = true;
+    enemy.dead = true;
+  }
 
 }

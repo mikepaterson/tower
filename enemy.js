@@ -17,7 +17,7 @@ class Enemy {
     this.screenPosition = {};
 
     this.lastMoveTime = null;
-    this.targetScreenPosition;
+    this.targetScreenPosition;//where enemy is currently moving to
   }
 
 
@@ -44,8 +44,16 @@ class Enemy {
       }
 
       if(this.screenPosition.x === this.targetScreenPosition.x && this.screenPosition.y === this.targetScreenPosition.y) {
-        this.gridPosition = this.game.currentLevel().getNextPosition(this.gridPosition);
-        this.targetScreenPosition = this.game.ui.getScreenPositionFromGridPosition(this.gridPosition)
+        //this.gridPosition = this.game.currentLevel().getNextPosition(this.gridPosition);
+        if(this.path.length>0) {
+          //move to next position
+          this.gridPosition = this.path.shift();
+          this.targetScreenPosition = this.game.ui.getScreenPositionFromGridPosition(this.gridPosition)
+        } else if(!this.target.dead) {
+          //arrived at target
+          this.target.takeDamage(this);
+          console.log('enemy reached target')
+        }
       }
     }
     this.lastMoveTime = currentTime;
@@ -77,5 +85,33 @@ class Enemy {
       this.dead = true;
     }
 
+  }
+
+
+  pickTarget() {
+    if(this.target && this.target.dead)
+      this.target = null;
+
+    var newPath;
+    if(this.target)
+      newPath = this.game.pathFinder.findPath(this.gridPosition, this.target.gridPosition);
+
+    if(!newPath) {
+      var possibleTargets = this.game.objects.filter(
+        object => !object.dead
+          && (object instanceof Townhall || object instanceof Farm || object instanceof Tower)
+      );
+
+      if(possibleTargets.length === 0) {
+        possibleTargets = this.game.objects.filter(
+          object => !object.dead
+            && (object instanceof Block)
+        );
+      }
+
+      this.target = possibleTargets[Math.floor(Math.random() * possibleTargets.length)];
+
+      this.path = this.game.pathFinder.findPath(this.gridPosition, this.target.gridPosition);
+    }
   }
 }
